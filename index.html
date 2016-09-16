@@ -21,7 +21,7 @@
       var map;
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
-          fcenter: {lat: 0, lng: 0},
+          center: {lat: -34.397, lng: 150.644},
           zoom: 8,
           disableDefaultUI: true,
           zoomControlOptions: {
@@ -29,7 +29,6 @@
             style: google.maps.ZoomControlStyle.SMALL
           }
         });
-      }
 
           var points = [];
           var notes = [];
@@ -48,8 +47,10 @@
               console.log (notes[i]);
           }
 });        
+
+    }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key="ENTER YOUR GMAPS API HERE"&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=" YOUR GMAPS KEY HERE "&callback=initMap"
     async defer></script>
   </body>
 </html>
