@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          fcenter: {lat: 0, lng: 0},
+          zoom: 8,
+          disableDefaultUI: true,
+          zoomControlOptions: {
+            position: google.maps.ControlPosition.BOTTOM_LEFT,
+            style: google.maps.ZoomControlStyle.SMALL
+          }
+        });
+      }
+
+          var points = [];
+          var notes = [];
+          google.maps.event.addListener(map, "click", function (e) {
+          //lat and lng is available in e object
+          var latLng = e.latLng;
+          var marker = new google.maps.Marker({position:latLng, title:"My first makrer"});
+          marker.setMap(map);
+          points.push(marker);
+          var note = prompt("Please enter your note", "");
+          notes.push(note);
+
+          for(var i =0; i < points.length; i++)
+          {
+              console.log (points[i].getPosition().toString());
+              console.log (notes[i]);
+          }
+});        
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzu3dklE5s5TeRFDqh33Y8x_7vTQUSHsU&callback=initMap"
+    async defer></script>
+  </body>
+</html>
