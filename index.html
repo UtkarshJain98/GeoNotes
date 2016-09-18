@@ -10,19 +10,51 @@
         margin: 0;
         padding: 0;
       }
+	  #wrapper {
+		height: 100%;
+		width: 100%;
+		border: 1px solid black;
+		overflow: auto; /* so the size of the wrapper is alway the size of the longest content */
+	}
       #map {
         height: 100%;
+        width: 50%;
+		border: 1px solid black;
+		overflow: auto;
+		float: left;
       }
-    </style>
+	  #note {
+	  height: 100%;
+	  width: 49%;
+	  overflow: auto;
+	  border: 1px solid black;
+    background-color: purple; 
+	  float: right;
+	  }
+	  #notes {
+	  font-size: 14;
+	  color: "blue"
+	  }
+	  </style>
   </head>
   <body>
-    <div id="map"></div>
+    <div id="wrapper">
+		<div id="map"></div>x
+		<div id="note">
+			<H1 align="center"><font face = "Arial" color="orange"> Location Notes </font></H1>
+			<br>
+			<h3><font face = "Arial" color = "blue"> Click on the notes below to find the associated location </font></h3>
+			<ul id="notes"></ul>	
+		</div>
+	</div>
     <script>
       var map;
+	  var list = document.getElementById('notes'); //ordered list of notes 
+	  
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 8,
+  	      center: {lat: 40.425869, lng: -86.908066},
+          zoom: 7,
           disableDefaultUI: true,
           zoomControlOptions: {
             position: google.maps.ControlPosition.BOTTOM_LEFT,
@@ -30,27 +62,34 @@
           }
         });
 
-          var points = [];
-          var notes = [];
-          google.maps.event.addListener(map, "click", function (e) {
+          google.maps.event.addListener(map, "click", function (e) 
+          {
           //lat and lng is available in e object
           var latLng = e.latLng;
-          var marker = new google.maps.Marker({position:latLng, title:"My first makrer"});
+          var marker = new google.maps.Marker({position:latLng, title:"My Note"});
           marker.setMap(map);
-          points.push(marker);
           var note = prompt("Please enter your note", "");
-          notes.push(note);
+		  //Write notes in the ordered list 
+		  var entry = document.createElement('li'); //create a new list entry
+		  entry.appendChild(document.createTextNode(note)); //add the note text to it
+		  entry.lat = marker.getPosition().lat(); //add a custom attribute to the entry for storing lat
+		  entry.lng = marker.getPosition().lng(); //add a custom attribute to the entry for storing lng
+		  list.appendChild(entry); //add it to the list
+         }); 
 
-          for(var i =0; i < points.length; i++)
-          {
-              console.log (points[i].getPosition().toString());
-              console.log (notes[i]);
-          }
-});        
+
+		//add event listenr to the list of notes 
+		list.addEventListener('click', function(e) 
+		{
+			var center = new google.maps.LatLng(e.target.lat, e.target.lng);
+			map.panTo(center);
+			map.setZoom(10);//zoom 
+		});
+
 
     }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=" YOUR GMAPS KEY HERE "&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR GMAPS KEY HERE&callback=initMap"
     async defer></script>
   </body>
 </html>
